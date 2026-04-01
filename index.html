@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spherical Harmonics Pro</title>
+    <link rel="stylesheet" href="styles_pro.css"> 
+</head>
+
+<body>
+    <div id="app-wrapper">
+        <aside id="left-panel" class="side-panel">
+            <div class="panel-header">Гармоніки</div>
+            <div id="harm-list" class="panel-content">
+                <div class="global-settings-row">
+                    <div class="setting-group">
+                        <span class="math-italic">C min</span>
+                        <input type="number" id="c-min-input" class="pro-num-input" value="-1" step="0.1">
+                    </div>
+                    <div class="setting-group">
+                        <span class="math-italic">C max</span>
+                        <input type="number" id="c-max-input" class="pro-num-input" value="1" step="0.1">
+                    </div>
+                </div>
+
+                <div class="harmonic-item">
+                    <div class="harm-main-row">
+                        <input type="checkbox" class="harm-enable" checked>
+                        <span class="harm-id">Y</span>
+                        <select class="pro-mini-select l-val">
+                            <option value="0">l=0</option>
+                            <option value="1" selected>l=1</option>
+                            <option value="2">l=2</option>
+                            <option value="3">l=3</option>
+                            <option value="4">l=4</option>
+                            <option value="5">l=5</option>
+                        </select>
+                        <select class="pro-mini-select m-val">
+                            <option value="-5">m=-5</option>
+                            <option value="-4">m=-4</option>
+                            <option value="-3">m=-3</option>
+                            <option value="-2">m=-2</option>
+                            <option value="-1">m=-1</option>
+                            <option value="0" selected>m=0</option>
+                            <option value="1">m=1</option>
+                            <option value="2">m=2</option>
+                            <option value="3">m=3</option>
+                            <option value="4">m=4</option>
+                            <option value="5">m=5</option>
+                        </select>
+                        <button class="remove-harm-btn" title="Видалити">×</button>
+                    </div>
+                    <div class="harm-parameters-block">
+                        <div class="slider-full amplitude-param">
+                            <span class="slider-label math-italic">C</span>
+                            <input type="range" class="coeff-slider" min="-2" max="2" step="0.01" value="1.00">
+                            <span class="val-display">1.00</span>
+                        </div>
+                        <div class="slider-full phase-param">
+                            <span class="slider-label math-italic">φ₀</span>
+                            <input type="range" class="phase-phi-slider" min="0" max="6.28" step="0.1" value="0">
+                            <span class="val-display">0.0</span>
+                        </div>
+                        <div class="slider-full phase-param">
+                            <span class="slider-label math-italic">θ₀</span>
+                            <input type="range" class="phase-theta-slider" min="0" max="3.14" step="0.1" value="0">
+                            <span class="val-display">0.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            <div class="panel-footer" style="padding: 10px; border-top: 1px solid var(--border-color);">
+                <button id="add-harmonic-btn" class="pro-btn" style="flex: 2;"> + Додати моду </button>
+                <button id="clear-all-btn" class="pro-btn danger-btn" style="flex: 1;" title="Видалити всі гармоніки">🗑 Очистити </button>
+            </div>
+        </aside>
+
+        <main id="viewport-container">
+            <canvas id="c"></canvas>
+            <div id="viewport-info">
+                <span class="axis-x">X</span>
+                <span class="axis-y">Y</span>
+                <span class="axis-z">Z</span>
+            </div>
+            <button id="viewport-screenshot-btn" class="viewport-overlay-btn" title="Зберегти скріншот (PNG)">📷</button>
+            <button id="help-btn" class="viewport-overlay-btn help-pos" title="Математична довідка (PDF)">
+                <span style="font-family: 'Segoe UI', sans-serif; font-weight: bold;">?</span>
+            </button>
+        </main>
+
+        <aside id="right-panel" class="side-panel">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Візуалізація</span>
+                <div class="res-switcher">
+                    <button id="res-sd-btn" class="res-btn active">SD</button>
+                    <button id="res-hd-btn" class="res-btn">HD</button>
+                </div>
+            </div>
+            <div class="panel-content">
+                <div class="section-title">Колір та поверхня</div>
+                <div class="control-row">
+                    <select id="color-scheme-select" class="pro-select">
+                        <option value="classic">Класична (Red-Blue)</option>
+                        <option value="grayscale">Градієнт сірого</option>
+                    </select>
+                </div>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="mesh-opacity-slider"> Приховати поверхню
+                </label>
+                <div class="control-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="coordmesh"> Меридіани та паралелі
+                    </label>
+                </div>
+                <div class="section-title">Освітлення</div>
+                <div class="control-row">
+                    <label>Яскравість</label>
+                    <input type="range" id="light-intensity-slider" min="0" max="1.5" step="0.1" value="1.0">
+                </div>
+                <div class="section-title">Режим відображення</div>
+                <div class="button-group-vertical">
+                    <button class="mode-btn active" data-mode="color">Колір на сфері</button>
+                    <button class="mode-btn" data-mode="amplitude">Амплітуда</button>
+                    <button class="mode-btn" data-mode="deform">Деформація</button>
+                </div>
+                <div class="section-title">Параметри деформації</div>
+                <div class="control-row">
+                    <label>Сила</label>
+                    <input type="range" id="global-deform-slider" min="0" max="1" step="0.05" value="0.3">
+                    <span id="global-deform-val" class="val">0.30</span>
+                </div>
+                <div class="section-title">Допоміжна геометрія</div>
+                <div class="control-row">
+                    <label>Тип орієнтирів</label>
+                    <select id="axis-type-select" class="pro-select" autocomplete="off">
+                        <option value="none" selected>Вимкнено</option>
+                        <option value="box">Обмежувальний бокс</option>
+                        <option value="surface">Осі координат</option>
+                    </select>
+                </div>
+                <div class="control-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="reference-sphere-toggle" autocomplete="off"> Еталонна сфера (R=1)
+                    </label>
+                </div>
+                <div class="control-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="equator-plane-toggle" autocomplete="off"> Площина екватора
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <footer id="bottom-panel">
+            <div class="playback-controls" style="width: var(--left-panel-width); display: flex; align-items: center; gap: 15px;">
+                <button id="play-pause-btn" class="main-play-btn">▶</button>
+                    <div class="timeline-info">Time: <span id="time-display">0.00</span></div>
+            </div>
+            <div class="timeline-slider-container" style="flex: 1; padding: 0 30px; display: flex; align-items: center; gap: 15px;">
+                <span class="math-italic">t</span>
+                <input type="range" id="timeline-slider" min="0" max="6.28" step="0.01" value="0" style="width: 100%;">
+                <span class="math-italic">2π</span>
+            </div>
+            <div class="speed-controls" style="width: var(--right-panel-width); display: flex; align-items: center; gap: 10px; border-left: 1px solid var(--border-color); padding-left: 15px; padding-right: 15px;">
+                <span style="font-size: 10px; color: var(--accent);">SPEED</span>
+                <input type="range" id="speed-multiplier" min="0.5" max="2" step="0.1" value="1" style="width: 70px;">
+                <span id="speed-val" class="val-display" style="min-width: 25px;">1.0x</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="./scripts/math.js"></script>
+    <script src="./scripts/engine_pro.js"></script>
+    <script src="./scripts/ui_pro.js"></script>
+</body>
+</html>
