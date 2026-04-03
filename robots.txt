@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /js/
+Disallow: /css/
+Disallow: /assets/
+
+# Спеціально для наукових файлів
+Allow: /*.pdf$
