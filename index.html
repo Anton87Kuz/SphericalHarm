@@ -10,7 +10,7 @@
 <body>
     <div id="app-wrapper">
         <aside id="left-panel" class="side-panel">
-            <div class="panel-header">Гармоніки</div>
+            <div class="panel-header" data-ua="Дійсні гармоніки" data-en="Real Harmonics">Дійсні гармоніки</div>
             <div id="harm-list" class="panel-content">
                 <div class="global-settings-row">
                     <div class="setting-group">
@@ -48,7 +48,7 @@
                             <option value="4">m=4</option>
                             <option value="5">m=5</option>
                         </select>
-                        <button class="remove-harm-btn" title="Видалити">×</button>
+                        <button class="remove-harm-btn"  data-ua-title="Видалити" data-en-title="Remove" title="Видалити">×</button>
                     </div>
                     <div class="harm-parameters-block">
                         <div class="slider-full amplitude-param">
@@ -70,8 +70,15 @@
                 </div>
             </div>    
             <div class="panel-footer" style="padding: 10px; border-top: 1px solid var(--border-color);">
-                <button id="add-harmonic-btn" class="pro-btn" style="flex: 2;"> + Додати моду </button>
-                <button id="clear-all-btn" class="pro-btn danger-btn" style="flex: 1;" title="Видалити всі гармоніки">🗑 Очистити </button>
+                <button id="add-harmonic-btn" class="pro-btn" style="flex: 2;" data-ua="+ Додати моду" data-en="+ Add New Mode"> + Додати моду </button>
+                <button id="clear-all-btn" class="pro-btn danger-btn" style="flex: 1;"
+                        data-ua="🗑 Очистити"
+                        data-en="🗑 Clear"
+                        data-ua-title="Видалити всі налаштовані гармоніки"
+                        data-en-title="Delete all configured harmonics"
+                        title="Видалити всі налаштовані гармоніки">
+                    🗑 Очистити
+                </button>
             </div>
         </aside>
 
@@ -82,89 +89,121 @@
                 <span class="axis-y">Y</span>
                 <span class="axis-z">Z</span>
             </div>
-            <button id="viewport-screenshot-btn" class="viewport-overlay-btn" title="Зберегти скріншот (PNG)">📷</button>
-            <button id="help-btn" class="viewport-overlay-btn help-pos" title="Математична довідка (PDF)">
+            <button id="viewport-screenshot-btn" class="viewport-overlay-btn"  data-ua-title="Зберегти скріншот (PNG)"
+ data-en-title="Export image (PNG)" title="Зберегти скріншот (PNG)">📷</button>
+            <button id="help-btn" class="viewport-overlay-btn help-pos"  data-ua-title="Математична довідка (PDF)"
+ data-en-title="Math Info (PDF)" title="Математична довідка (PDF)">
                 <span style="font-family: 'Segoe UI', sans-serif; font-weight: bold;">?</span>
             </button>
         </main>
 
         <aside id="right-panel" class="side-panel">
             <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Візуалізація</span>
+                <span  data-ua="Візуалізація" data-en="Visualization Param.">Візуалізація</span>
                 <div class="res-switcher">
-                    <button id="res-sd-btn" class="res-btn active">SD</button>
-                    <button id="res-hd-btn" class="res-btn">HD</button>
+                    <button id="res-sd-btn" class="res-btn active" 
+                            data-ua-title="Стандартна щільність (базова сітка)"
+                            data-en-title="Standard density (base grid)"
+                            title="Стандартна щільність (базова сітка)">
+                        SD
+                    </button>
+                    <button id="res-hd-btn" class="res-btn" 
+                            data-ua-title="Висока деталізація (подвійна щільність сітки)"
+                            data-en-title="High detail (double grid density)"
+                            title="Висока деталізація (подвійна щільність сітки)">
+                        HD
+                    </button>
                 </div>
             </div>
             <div class="panel-content">
-                <div class="section-title">Колір та поверхня</div>
+                <div class="section-title" data-ua="Колір та поверхня" data-en="Color and Surface">Колір та поверхня</div>
                 <div class="control-row">
                     <select id="color-scheme-select" class="pro-select">
-                        <option value="classic">Класична (Red-Blue)</option>
-                        <option value="grayscale">Градієнт сірого</option>
+                        <option value="classic" data-ua="Класична (помаранчево-синя)" data-en="Classic (Orange-Blue)">Класична (помаранчево-синя)</option>
+                        <option value="grayscale" data-ua="Градієнт сірого" data-en="Grayscale">Градієнт сірого</option>
                     </select>
                 </div>
                 <label class="checkbox-label">
-                    <input type="checkbox" id="mesh-opacity-slider"> Приховати поверхню
-                </label>
+                    <input type="checkbox" id="mesh-opacity-slider"> 
+                            <span data-ua="Приховати поверхню" data-en="Hide Surface"> Приховати поверхню</span>
+                    </label>
                 <div class="control-row">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="coordmesh"> Меридіани та паралелі
+                        <input type="checkbox" id="coordmesh"> 
+                            <span data-ua="Меридіани та паралелі" data-en="Meridians and Parallels"> Меридіани та паралелі </span>
                     </label>
                 </div>
-                <div class="section-title">Освітлення</div>
+                <div class="section-title" data-ua="Параметри світла" data-en="Scene Lighting">Параметри світла</div>
                 <div class="control-row">
-                    <label>Яскравість</label>
+                    <label  data-ua="Яскравість" data-en="Intensity">Яскравість</label>
                     <input type="range" id="light-intensity-slider" min="0" max="1.5" step="0.1" value="1.0">
                 </div>
-                <div class="section-title">Режим відображення</div>
+                <div class="section-title" data-ua="Режим відображення" data-en="Display Mode">Режим відображення</div>
                 <div class="button-group-vertical">
-                    <button class="mode-btn active" data-mode="color">Колір на сфері</button>
-                    <button class="mode-btn" data-mode="amplitude">Амплітуда</button>
-                    <button class="mode-btn" data-mode="deform">Деформація</button>
+                    <button class="mode-btn active" data-mode="color" data-ua="Забарвлення поверхні" data-en="Surface Coloring">Забарвлення поверхні</button>
+                    <button class="mode-btn" data-mode="amplitude" data-ua="Абсолютне значення" data-en="Total Magnitude">Абсолютне значення</button>
+                    <button class="mode-btn" data-mode="deform" data-ua="Геометрія поверхні" data-en="Surface Geometry">Геометрія поверхні</button>
                 </div>
-                <div class="section-title">Параметри деформації</div>
+                <div class="section-title" data-ua="Параметр деформації" data-en="Deform Factor">Параметр деформації</div>
                 <div class="control-row">
-                    <label>Сила</label>
+                    <label data-ua="Сила" data-en="Value">Сила</label>
                     <input type="range" id="global-deform-slider" min="0" max="1" step="0.05" value="0.3">
                     <span id="global-deform-val" class="val">0.30</span>
                 </div>
-                <div class="section-title">Допоміжна геометрія</div>
+                <div class="section-title" data-ua="Допоміжна геометрія" data-en="Auxiliary Geometry">Допоміжна геометрія</div>
                 <div class="control-row">
-                    <label>Тип орієнтирів</label>
+                    <label data-ua="Тип орієнтирів" data-en="Reference Type">Тип орієнтирів</label>
                     <select id="axis-type-select" class="pro-select" autocomplete="off">
-                        <option value="none" selected>Вимкнено</option>
-                        <option value="box">Обмежувальний бокс</option>
-                        <option value="surface">Осі координат</option>
+                        <option value="none" selected data-ua="Вимкнено" data-en="None">Вимкнено</option>
+                        <option value="box" data-ua="Обмежувальний бокс" data-en="Bounding Box">Обмежувальний бокс</option>
+                        <option value="surface" data-ua="Осі координат" data-en="Coordinate Axes">Осі координат</option>
                     </select>
                 </div>
                 <div class="control-row">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="reference-sphere-toggle" autocomplete="off"> Еталонна сфера (R=1)
+                        <input type="checkbox" id="reference-sphere-toggle" autocomplete="off">
+                        <span data-ua="Еталонна сфера (R=1)" data-en="Unit Sphere (R=1)">Еталонна сфера (R=1)</span> 
                     </label>
                 </div>
                 <div class="control-row">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="equator-plane-toggle" autocomplete="off"> Площина екватора
+                        <input type="checkbox" id="equator-plane-toggle" autocomplete="off">
+                        <span data-ua="Площина екватора" data-en="Equatorial Plane">Площина екватора</span>
                     </label>
                 </div>
             </div>
         </aside>
 
         <footer id="bottom-panel">
-            <div class="playback-controls" style="width: var(--left-panel-width); display: flex; align-items: center; gap: 15px;">
-                <button id="play-pause-btn" class="main-play-btn">▶</button>
-                    <div class="timeline-info">Time: <span id="time-display">0.00</span></div>
+		    <div id="app-info-block">
+	            <div class="app-meta-wrapper">
+                    <div class="app-text-content">
+                        <div class="app-title">SphericalHarm Pro v1.0.1-α</div>
+                        <div class="app-license">© Anton Kuz | CC BY-NC-ND 4.0</div>
+                        <div class="app-cite">Cite as: 
+                            <a href="https://doi.org/10.5281/zenodo.xxxxxxx" target="_blank" class="doi-link"> DOI 10.5281/zenodo.xxxxxxx </a>
+                        </div>
+                    </div>
+                    <div class="lang-switch">
+                        <span class="lang-btn" data-lang="uk" onclick="UIController.setLang('uk')">UA</span>
+                        <span class="lang-divider">|</span>
+                        <span class="lang-btn" data-lang="en" onclick="UIController.setLang('en')">EN</span>
+                    </div>
+                </div>
             </div>
-            <div class="timeline-slider-container" style="flex: 1; padding: 0 30px; display: flex; align-items: center; gap: 15px;">
+            <div class="playback-controls">
+                <button id="play-pause-btn" class="main-play-btn">▶</button>
+                <div class="timeline-info" data-ua="Час:" data-en="Time:">Час: <span id="time-display">0.00</span></div>
+            </div>
+            <div class="timeline-slider-container">
                 <span class="math-italic">t</span>
-                <input type="range" id="timeline-slider" min="0" max="6.28" step="0.01" value="0" style="width: 100%;">
+                <input type="range" id="timeline-slider" min="0" max="6.28" step="0.01" value="0">
                 <span class="math-italic">2π</span>
             </div>
-            <div class="speed-controls" style="width: var(--right-panel-width); display: flex; align-items: center; gap: 10px; border-left: 1px solid var(--border-color); padding-left: 15px; padding-right: 15px;">
-                <span style="font-size: 10px; color: var(--accent);">SPEED</span>
-                <input type="range" id="speed-multiplier" min="0.5" max="2" step="0.1" value="1" style="width: 70px;">
-                <span id="speed-val" class="val-display" style="min-width: 25px;">1.0x</span>
+            <div class="speed-controls">
+                <span style="font-size: 10px; color: var(--accent);" data-ua="ШВДК." data-en="SPEED">ШВДК.</span>
+                <input type="range" id="speed-multiplier" min="0.5" max="2" step="0.1" value="1">
+                <span id="speed-val" class="val-display">1.0x</span>
             </div>
         </footer>
     </div>
