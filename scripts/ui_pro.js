@@ -35,6 +35,8 @@ const UIController = {
         if (axisSelect) {
             axisSelect.dispatchEvent(new Event('change'));
         }
+
+        this.setLang('uk');
     },
 
     // 1. КЕРУВАННЯ КАМЕРОЮ (Ротація та Зум)
@@ -255,9 +257,15 @@ const UIController = {
         if (helpBtn) {
             helpBtn.addEventListener('click', () => {
                 // Назва вашого PDF файлу, що лежить поруч з index_pro.html
-                window.open('math_harmonics_guide.pdf', '_blank');
+                const lang = document.documentElement.lang || 'ua';
+                const fileName = lang === 'en'
+                    ? 'math_harmonics_guide_en.pdf'
+                    : 'math_harmonics_guide_ua.pdf';
+                window.open(fileName, '_blank');
             });
         }
+
+        
     },
 
     // 3. ГЕНЕРАЦІЯ СПИСКУ ГАРМОНІК
@@ -281,7 +289,7 @@ const UIController = {
                     <input type="checkbox" ${h.active ? 'checked' : ''} onchange="UIController.harmonics[${idx}].active = this.checked; UIController.requestUpdate();">
                     <span class="harm-id">Y${idx + 1}</span>
                     <select class="pro-mini-select" onchange="UIController.updateL(${idx}, this.value)">
-                        ${[0,1,2,3,4,5].map(l => `<option value="${l}" ${h.l === l ? 'selected' : ''}>l=${l}</option>`).join('')}
+                        ${[0,1,2,3,4,5,6,7,8,9,10].map(l => `<option value="${l}" ${h.l === l ? 'selected' : ''}>l=${l}</option>`).join('')}
                     </select>
                     <select class="pro-mini-select" onchange="UIController.harmonics[${idx}].m = parseInt(this.value); UIController.requestUpdate();">
                         ${this.generateMOptions(h.l, h.m)}
@@ -412,10 +420,36 @@ const UIController = {
         link.click(); // Імітуємо клік для завантаження
     },
 
+    // Додайте цей метод в UIController
+    setLang(lang) {
+        this.currentLang = lang;
+        document.documentElement.lang = lang;
+        const attr = (lang === 'uk') ? 'data-ua' : 'data-en';
+        const titleAttr = (lang === 'uk') ? 'data-ua-title' : 'data-en-title';
+
+        // 1. Оновлюємо видимий текст (кнопки, заголовки, спани)
+        document.querySelectorAll(`[${attr}]`).forEach(el => {
+            el.textContent = el.getAttribute(attr);
+        });
+
+        // 2. Оновлюємо спливаючі підказки (title)
+        // Шукаємо елементи, які мають спеціальні атрибути для перекладу title
+        document.querySelectorAll(`[${titleAttr}]`).forEach(el => {
+            el.setAttribute('title', el.getAttribute(titleAttr));
+        });
+
+        // 3. Оновлюємо візуальний стан кнопок перемикача UA/EN
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            const btnLang = btn.getAttribute('data-lang');
+            btn.classList.toggle('active', btnLang === lang);
+        });
+    },
   
     // Додати як новий метод об'єкта UIController
     clearAll() {
-        if (confirm("Видалити всі гармоніки?")) {
+        // Використовуємо збережену в контролері мову
+        const msg = (this.currentLang === 'en') ? "Delete all harmonics?" : "Видалити всі гармоніки?";
+        if (confirm(msg)) {
             this.harmonics = []; // Очищаємо масив
             this.harmonicCount = 0; // Скидаємо лічильник
             this.renderHarmControls(); // Оновлюємо панель
@@ -431,6 +465,8 @@ const UIController = {
             document.getElementById('timeline-slider').value = 0;
         }
     }
+
+   
 };
 
 window.onload = () => UIController.init();
