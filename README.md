@@ -18,6 +18,8 @@ This project is licensed under the **Creative Commons Attribution-NonCommercial-
 
 For full details, see the [LICENSE](LICENSE) file.
 
+[![DOI](https://zenodo.org/badge/1198365371.svg)](https://doi.org/10.5281/zenodo.19410058)
+
 ### Technical Details / Технічні деталі
 * **Core**: Custom `math.js` library for orthonormal basis calculation.
 * **Rendering**: Three.js (WebGL) with custom vertex normal calculations for smooth shading.
