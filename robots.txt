@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /js/
 Disallow: /css/
-Disallow: /assets/
+Disallow: /scripts/
 
 # Спеціально для наукових файлів
 Allow: /*.pdf$
